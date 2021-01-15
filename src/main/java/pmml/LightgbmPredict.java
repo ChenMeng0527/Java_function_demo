@@ -16,7 +16,7 @@ public class LightgbmPredict {
 
     public static void main(String[] args) throws Exception {
         String  pathxml="/Users/shuubiasahi/Documents/python/credit-tfgan/xml/lightgbm.pmml";
-        Map<String, Double>  map=new HashMap<String, Double>();
+        Map<String, Double>  map = new HashMap<String, Double>();
         map.put("sepal_length", 5.1);
         map.put("sepal_width", 3.5);
         map.put("petal_length", 1.4);
