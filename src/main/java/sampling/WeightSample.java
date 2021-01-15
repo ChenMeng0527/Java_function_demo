@@ -3,7 +3,7 @@ package sampling;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class test {
+public class WeightSample {
     public static List a_res(HashMap<String,Double> samples,HashMap<String,Double> yunying,ArrayList<String> yuan){
         HashMap<String,Double> result = new HashMap<>();
         for(String goods_type_id:samples.keySet()){
