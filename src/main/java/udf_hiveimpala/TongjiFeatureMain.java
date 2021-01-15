@@ -1,4 +1,4 @@
-package udfhiveimpala;
+package udf_hiveimpala;
 
 import org.apache.hadoop.hive.ql.exec.UDF;
 
