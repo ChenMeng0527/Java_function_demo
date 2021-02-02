@@ -18,7 +18,7 @@ public class youshu_rec_sort {
         PMML pmml = new PMML();
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream("D:/PycharmWorkspace/youshu_datamining/recommendsystem/sort/ctr/code/ctr_pmml_070320.pmml");
+            inputStream = new FileInputStream("D:\\Java_Workspace\\function_demo\\src\\main\\java\\pmml\\file\\model\\ctr_pmml_070320.pmml");
         } catch (IOException e) {
             e.printStackTrace();
         }
