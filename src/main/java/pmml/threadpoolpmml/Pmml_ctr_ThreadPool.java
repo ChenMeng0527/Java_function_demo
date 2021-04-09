@@ -1,4 +1,4 @@
-package pmml;
+package pmml.threadpoolpmml;
 
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;

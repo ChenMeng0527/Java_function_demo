@@ -1,4 +1,4 @@
-package pmml;
+package pmml.lightgbm2pmml;
 
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
@@ -12,15 +12,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LightgbmPredict {
+public class LightgbmPmmlPredict {
 
     public static void main(String[] args) throws Exception {
-        String  pathxml="/Users/shuubiasahi/Documents/python/credit-tfgan/xml/lightgbm.pmml";
+        String  pathxml="/Users/youshu_/Java_Workspace/Java_function_demo/src/main/java/pmml/lightgbm2pmml/model/lightgbm.pmml";
         Map<String, Double>  map = new HashMap<String, Double>();
-        map.put("sepal_length", 5.1);
-        map.put("sepal_width", 3.5);
-        map.put("petal_length", 1.4);
-        map.put("petal_width", 0.2);
+        map.put("A", 6.3200e-03);
+        map.put("B", 1.8000e+01);
+        map.put("C", 2.3100e+00);
+        System.out.println(map);
         predictLrHeart(map, pathxml);
     }
 

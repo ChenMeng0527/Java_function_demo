@@ -1,4 +1,4 @@
-package pmml;
+package pmml.sklearn2pmml;
 
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
@@ -17,12 +17,12 @@ import java.util.Map;
 /**
  * Created by 刘建平Pinard on 2018/6/24.
  */
-public class PmmlDemo {
+public class SklearnPmmlPredict {
     private Evaluator loadPmml(){
         PMML pmml = new PMML();
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream("D:/demo_0703.pmml");
+            inputStream = new FileInputStream("/Users/youshu_/Java_Workspace/Java_function_demo/src/main/java/pmml/sklearn2pmml/model/sklearn.pmml");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -55,6 +55,7 @@ public class PmmlDemo {
         data.put("x2", b);
         data.put("x3", c);
         data.put("x4", d);
+
         List<InputField> inputFields = evaluator.getInputFields();
         //过模型的原始特征，从画像中获取数据，作为模型输入
         Map<FieldName, FieldValue> arguments = new LinkedHashMap<FieldName, FieldValue>();
@@ -82,10 +83,12 @@ public class PmmlDemo {
         return primitiveValue;
     }
     public static void main(String args[]){
-        PmmlDemo demo = new PmmlDemo();
+        SklearnPmmlPredict demo = new SklearnPmmlPredict();
         Evaluator model = demo.loadPmml();
-        demo.predict(model,2,5,6,8);
-        demo.predict(model,2,5,6,8);
+        demo.predict(model,1,2,3,1);
+        demo.predict(model,2,4,1,5);
+        demo.predict(model,7,8,3,6);
+        demo.predict(model,4,8,4,7);
 
     }
 }

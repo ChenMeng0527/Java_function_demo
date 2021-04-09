@@ -1,4 +1,4 @@
-package pmml;
+package pmml.xgb2pmml.model;
 
 import org.dmg.pmml.FieldName;
 import org.dmg.pmml.PMML;
@@ -19,7 +19,7 @@ public class Pmml_ctr {
         PMML pmml = new PMML();
         InputStream inputStream = null;
         try {
-            inputStream = new FileInputStream("D:\\Python_Worksapce\\youshu_datamining\\recommendsystem\\main\\rec_scene\\rec_model_xgb\\code\\ctr_pmml_070320.pmml");
+            inputStream = new FileInputStream("/Users/youshu_/Java_Workspace/Java_function_demo/src/main/java/pmml/file/model/ctr_pmml_070320.pmml");
         } catch (IOException e) {
             e.printStackTrace();
         }

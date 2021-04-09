@@ -1,4 +1,4 @@
-package ftrl;
+package ftrl.demo1;
 
 public class FTRLparameters {
     public double alpha;  //学习速率

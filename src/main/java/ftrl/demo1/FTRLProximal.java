@@ -1,4 +1,4 @@
-package ftrl;
+package ftrl.demo1;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;

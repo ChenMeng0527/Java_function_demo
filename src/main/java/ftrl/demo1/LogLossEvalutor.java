@@ -1,4 +1,4 @@
-package ftrl;
+package ftrl.demo1;
 
 public class LogLossEvalutor {
     private int testDataSize;
