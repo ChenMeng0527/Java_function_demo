@@ -1,4 +1,4 @@
-package tf_serving;
+package tfserving;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -17,7 +17,7 @@ import tensorflow.serving.PredictionServiceGrpc;
 import static com.sun.org.apache.xalan.internal.lib.ExsltStrings.split;
 import static java.util.Arrays.asList;
 
-public class tf_serving2 {
+public class JavaTfserving2 {
 
 
     public static void main(String[] args) throws IOException {

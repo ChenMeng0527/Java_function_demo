@@ -1,4 +1,4 @@
-package bloomFilter;
+package bloomfilter;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.BitSet;
 import java.util.concurrent.atomic.AtomicInteger;
+
 
 public class BloomFilter implements Serializable {
     private static final long serialVersionUID = -5221305273707291280L;
@@ -30,7 +31,7 @@ public class BloomFilter implements Serializable {
      *            当希望过滤器使用率达到80%时自动清空重新使用，则传入0.8
      */
     public BloomFilter(MisjudgmentRate rate, int dataCount, Double autoClearRate) {
-        long bitSize = rate.seeds.length *dataCount;
+        long bitSize = rate.seeds.length * dataCount;
         System.out.println(Integer.MAX_VALUE);
         System.out.println("bitSize"+bitSize);
         if (bitSize < 0 || bitSize > Integer.MAX_VALUE) {

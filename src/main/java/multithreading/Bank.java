@@ -1,6 +1,7 @@
 package multithreading;
 
 public class Bank {
+
     private static int money;
 
     public int getMoney(){
@@ -12,6 +13,7 @@ public class Bank {
             System.out.println("存钱后的总金额："+(money+=m));
         }
     }
+
     public void drawMoney(int m){
         synchronized (this) {
             Bank bank = new Bank();

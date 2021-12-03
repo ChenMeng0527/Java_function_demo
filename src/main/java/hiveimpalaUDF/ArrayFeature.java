@@ -1,4 +1,4 @@
-package udf_hiveimpala;
+package hiveimpalaUDF;
 
 import org.apache.hadoop.hive.ql.exec.UDF;
 import java.util.ArrayList;
@@ -116,7 +116,7 @@ public class ArrayFeature extends UDF{
 
 
 
-    public static String mainEvaluate(String x, String y){
+    public static String evaluate(String x, String y){
         //开始整体计算特征值
         // 1:将输入的两个字符串转为原始12个月的数组
         ArrayList<Integer> xx = trans2Array(x,y);
@@ -153,7 +153,7 @@ public class ArrayFeature extends UDF{
     public static void main(String[] args) {
         // x：有行为的月份
         // y: 对应月份的数值
-        mainEvaluate("1,5","30,50");
+        evaluate("1,5","30,50");
 
     }
 }

@@ -1,4 +1,4 @@
-package tf_serving;
+package tfserving;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class demo {
+public class JavaTfservingMthreading {
     /**
      * 多线程处理list
      *
@@ -45,61 +45,6 @@ public class demo {
                                                     tensorShapeBuilder);
             thread.start();
         }
-    }
-
-    class HandleThread extends Thread {
-        private String threadName;
-        private ArrayList<ArrayList> data;
-        private int start;
-        private int end;
-        private PredictionServiceGrpc.PredictionServiceBlockingStub stub;
-        private Predict.PredictRequest.Builder predictRequestBuilder;
-        private TensorShapeProto.Builder tensorShapeBuilder;
-
-        public HandleThread(String threadName, ArrayList<ArrayList> data, int start, int end,
-                            PredictionServiceGrpc.PredictionServiceBlockingStub stub,
-                            Predict.PredictRequest.Builder predictRequestBuilder,
-                            TensorShapeProto.Builder tensorShapeBuilder
-                            ) {
-            this.threadName = threadName;
-            this.data = data;
-            this.start = start;
-            this.end = end;
-            this.stub = stub;
-            this.predictRequestBuilder = predictRequestBuilder;
-            this.tensorShapeBuilder = tensorShapeBuilder;
-        }
-
-        public void run() {
-            List subList_ = data.subList(start, end);
-            System.out.println(threadName+"处理了"+subList_.size()+"条！");
-            for(ArrayList i:data){
-                ArrayList<Long> ids_vec_ = (ArrayList<Long>)i.get(0);
-                ArrayList<Float> vals_vec_ = (ArrayList<Float>) i.get(1);
-
-                // 设置入参1
-                TensorProto.Builder tensorids_ids = TensorProto.newBuilder();
-                tensorids_ids.setDtype(DataType.DT_INT64);
-                tensorids_ids.setTensorShape(tensorShapeBuilder.build());
-                tensorids_ids.addAllInt64Val(ids_vec_);
-
-                // 设置入参2
-                TensorProto.Builder tensorids_val = TensorProto.newBuilder();
-                tensorids_val.setDtype(DataType.DT_FLOAT);
-                tensorids_val.setTensorShape(tensorShapeBuilder.build());
-                tensorids_val.addAllFloatVal(vals_vec_);
-
-                Map<String, TensorProto> map=new LinkedHashMap<>();
-                map.put("feat_ids", tensorids_ids.build());
-                map.put("feat_vals", tensorids_val.build());
-                predictRequestBuilder.putAllInputs(map);
-                Predict.PredictResponse result = stub.predict(predictRequestBuilder.build());
-
-//                System.out.println(result.getOutputsMap().get("prob").getFloatValList());
-            }
-
-        }
-
     }
 
 
@@ -143,16 +88,12 @@ public class demo {
     public static void main(String[] args) throws IOException {
 
         ManagedChannel channel = ManagedChannelBuilder.forAddress("172.17.36.29", 8500).usePlaintext(true).build();
-        // 这里还是先用block模式
         PredictionServiceGrpc.PredictionServiceBlockingStub stub = PredictionServiceGrpc.newBlockingStub(channel);
-        // 创建请求
         Predict.PredictRequest.Builder predictRequestBuilder = Predict.PredictRequest.newBuilder();
-        // 模型名称和模型方法名预设
         Model.ModelSpec.Builder modelSpecBuilder = Model.ModelSpec.newBuilder();
         modelSpecBuilder.setName("deepfm");
         modelSpecBuilder.setSignatureName("");
         predictRequestBuilder.setModelSpec(modelSpecBuilder);
-
         TensorShapeProto.Builder tensorShapeBuilder = TensorShapeProto.newBuilder();
         tensorShapeBuilder.addDim(TensorShapeProto.Dim.newBuilder().setSize(1));
         tensorShapeBuilder.addDim(TensorShapeProto.Dim.newBuilder().setSize(16));
@@ -165,9 +106,69 @@ public class demo {
         System.out.println("数据总数:"+data.size());
 
         long startTime = System.currentTimeMillis();
-        demo test = new demo();
+        JavaTfservingMthreading test = new JavaTfservingMthreading();
         test.handleList(data, 4, stub, predictRequestBuilder, tensorShapeBuilder);
         long endTime = System.currentTimeMillis();
         System.out.println("程序执行时间:"+(endTime-startTime));
     }
+}
+
+
+class HandleThread extends Thread {
+    private String threadName;
+    private ArrayList<ArrayList> data;
+    private int start;
+    private int end;
+    private PredictionServiceGrpc.PredictionServiceBlockingStub stub;
+    private Predict.PredictRequest.Builder predictRequestBuilder;
+    private TensorShapeProto.Builder tensorShapeBuilder;
+
+    public HandleThread(String threadName,
+                        ArrayList<ArrayList> data,
+                        int start,
+                        int end,
+                        PredictionServiceGrpc.PredictionServiceBlockingStub stub,
+                        Predict.PredictRequest.Builder predictRequestBuilder,
+                        TensorShapeProto.Builder tensorShapeBuilder
+    ) {
+        this.threadName = threadName;
+        this.data = data;
+        this.start = start;
+        this.end = end;
+        this.stub = stub;
+        this.predictRequestBuilder = predictRequestBuilder;
+        this.tensorShapeBuilder = tensorShapeBuilder;
+    }
+
+    @Override
+    public void run() {
+        List subList_ = data.subList(start, end);
+        System.out.println(threadName+"处理了"+subList_.size()+"条！");
+        for(ArrayList i:data){
+            ArrayList<Long> ids_vec_ = (ArrayList<Long>)i.get(0);
+            ArrayList<Float> vals_vec_ = (ArrayList<Float>) i.get(1);
+
+            // 设置入参1
+            TensorProto.Builder tensorids_ids = TensorProto.newBuilder();
+            tensorids_ids.setDtype(DataType.DT_INT64);
+            tensorids_ids.setTensorShape(tensorShapeBuilder.build());
+            tensorids_ids.addAllInt64Val(ids_vec_);
+
+            // 设置入参2
+            TensorProto.Builder tensorids_val = TensorProto.newBuilder();
+            tensorids_val.setDtype(DataType.DT_FLOAT);
+            tensorids_val.setTensorShape(tensorShapeBuilder.build());
+            tensorids_val.addAllFloatVal(vals_vec_);
+
+            Map<String, TensorProto> map=new LinkedHashMap<>();
+            map.put("feat_ids", tensorids_ids.build());
+            map.put("feat_vals", tensorids_val.build());
+            predictRequestBuilder.putAllInputs(map);
+            Predict.PredictResponse result = stub.predict(predictRequestBuilder.build());
+
+//                System.out.println(result.getOutputsMap().get("prob").getFloatValList());
+        }
+
+    }
+
 }
